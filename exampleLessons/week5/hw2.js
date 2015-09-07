@@ -1,0 +1,16 @@
+db.zips.aggregate([
+	{$match:{
+		$or:[{state:"CA"},{state:"NY"}]
+	}},
+	{$group:{
+		_id:"$city",
+		cityPop:{$sum:"$pop"}
+	}},
+	{$match:{
+		cityPop:{$gt:25000}
+	}},
+	{$group:{
+		_id:"_id",
+		avgPop:{$avg:"$cityPop"}
+	}}
+])
